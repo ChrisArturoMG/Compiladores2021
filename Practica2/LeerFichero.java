@@ -12,8 +12,8 @@ class LeerFichero {
     //private List<Transicion> transiciones;
     
     private int estadoInicial;
-
     private List<Integer> estadosFinales;
+    private List<Transicion> transiciones;
     
     private static String PALABRA_INICIAL = "inicial";
     private static String PALABRA_FINALES = "finales";
@@ -58,12 +58,12 @@ class LeerFichero {
              }
         }
 
-        System.out.println(this.obtenerEstadoInicial(lineas.get(0)));
-        System.out.println(this.obtenerEstadoFinal(lineas.get(1)));
-        System.out.println(this.obtenerTransiciones(lineas.subList(2, lineas.size())));
+        System.out.println(this.guardarEstadoInicial(lineas.get(0)));
+        System.out.println(this.guardarEstadosFinales(lineas.get(1)));
+        System.out.println(this.guardarTransiciones(lineas.subList(2, lineas.size())));
 
     }
-    private int obtenerEstadoInicial(String linea){
+    public int guardarEstadoInicial(String linea){
         String parametros[] = linea.split(SIMBOLO_ASIGNACION);
         int estadoInicial = -1;   // Es menos uno porque no es ningun estado
         try{
@@ -75,7 +75,7 @@ class LeerFichero {
         return estadoInicial;  
     }
 
-    private List<Integer> obtenerEstadoFinal(String linea){
+    public List<Integer> guardarEstadosFinales(String linea){
         
         String valores_asignados[] = linea.split(SIMBOLO_ASIGNACION);
         String estados_finales[] = valores_asignados[1].split(SIMBOLO_SEPARADOR);
@@ -93,7 +93,7 @@ class LeerFichero {
     }
 
 
-    private List<Transicion> obtenerTransiciones(List<String> lineas) {
+    public List<Transicion> guardarTransiciones(List<String> lineas) {
        
         List<Transicion> transicion = new ArrayList<>();
         String[] parametros, parametros2;
@@ -113,11 +113,20 @@ class LeerFichero {
                 e.printStackTrace();
                 System.exit(0);
             }
-            
-            
         }
-        
         return transicion;
     }
+
+    public List<Transicion> obtenerTransiciones() {
+        return transiciones;
+    }
+
+    public int obtenerEstadoInicial() {
+        return estadoInicial;
+    }
+    public List<Integer> obtenerEstadosFinales() {
+        return estadosFinales;
+    }
+
 
 }
