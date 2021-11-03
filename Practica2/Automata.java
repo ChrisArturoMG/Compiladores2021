@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Automata {
+public abstract class Automata {
     protected int estadoInicial;
     protected List<Integer> estadosFinales = new ArrayList<>();
     protected List<Transicion> transiciones = new ArrayList<>();
@@ -70,5 +70,9 @@ public class Automata {
     public List<Transicion> obtener_transiciones(){
         return transiciones;
     }
+
+
+    public abstract boolean acepta(String cadena);
+    
     
 }
