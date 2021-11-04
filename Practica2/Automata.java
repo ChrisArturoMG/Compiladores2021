@@ -6,13 +6,6 @@ public abstract class Automata {
     protected List<Integer> estadosFinales = new ArrayList<>();
     protected List<Transicion> transiciones = new ArrayList<>();
     
-    public void cargar_automata(String ruta){
-        LeerFichero lector = new LeerFichero(ruta);
-        this.transiciones = lector.obtenerTransiciones();
-        this.estadoInicial = lector.obtenerEstadoInicial();
-        this.estadosFinales = lector.obtenerEstadosFinales();
-    }
-    
     public void insertar_transicion(int inicio, int sig, char simbolo){
         this.transiciones.add(new Transicion(inicio,sig,simbolo));
     }
@@ -25,7 +18,7 @@ public abstract class Automata {
             }
         }
     }
-
+    
     public void establecer_inicial(int estado){        
         for (int i = 0; i < transiciones.size(); i++) {
             if (transiciones.get(i).estadoInicial == estado || transiciones.get(i).siguienteEstado == estado) {
@@ -72,7 +65,7 @@ public abstract class Automata {
     }
 
 
-    public abstract boolean acepta(String cadena);
+    public abstract int evaluaSimbolo(char simbolo, int estadoActual);
     
     
 }
