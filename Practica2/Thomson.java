@@ -17,34 +17,47 @@ public class Thomson {
             if(expresion.charAt(i)=='('){
                 ultimoParentesis = i;
             }if(expresion.charAt(i)==')'){
-                //System.out.println("subcadena: " + expresion.substring(ultimoParentesis+1, i));
+                System.out.println("subcadena: " + expresion.substring(ultimoParentesis+1, i));
                 ordenJerarquico.add(expresion.substring(ultimoParentesis+1, i));
                 expresion = expresion.replace(expresion.substring(ultimoParentesis, i+1), String.valueOf( ordenJerarquico.size()-1));
-                //System.out.println("expresion : " + expresion);
+                System.out.println("expresion : " + expresion);
                 i=0;
                 ultimoParentesis=0;
             }
+            if(expresion.charAt(i) == '*' && ultimoParentesis==0){
+                System.out.println("subcadena: " + expresion.substring(i-1, i+1));
+                ordenJerarquico.add(expresion.substring(i-1, i+1));
+                expresion = expresion.replace(expresion.substring(i-1, i+1), String.valueOf( ordenJerarquico.size()-1));
+                System.out.println("expresion : " + expresion);
+                i=0;
+            }  
         }
+        
         ordenJerarquico.add(expresion);
-        /*for (int i = 0; i < ordenJerarquico.size(); i++) {
+        System.out.println("___________________________________________");
+        System.out.println("Orden Jerarquico");
+        for (int i = 0; i < ordenJerarquico.size(); i++) {
             System.out.println(ordenJerarquico.get(i));
-        }*/
+        }
+        System.out.println("___________________________________________");
 
         realizarOperaciones();
     }
     public void realizarOperaciones(){
         for (int i = 0; i < ordenJerarquico.size(); i++) {
             if(ordenJerarquico.get(i).contains("*")){
-                System.out.println("Cerradura");
+                System.out.print("Cerradura  ");
                 System.out.println(ordenJerarquico.get(i));
-
                 cerradura(automatas.get(0));//ordenJerarquico.get(i).charAt(i)));
-                
+
             }else if (ordenJerarquico.get(i).length() > 1 &&  !ordenJerarquico.get(i).contains("*") && !ordenJerarquico.get(i).contains("|") ) {
-                System.out.println("concatenacion");
+                System.out.print("concatenacion  ");
                 System.out.println(ordenJerarquico.get(i));
+                                 
+                concatenacion(automatas.get(1), generarAFD('b'));
+
             }else if(ordenJerarquico.get(i).contains("|")) {
-                System.out.println("Union");
+                System.out.print("Union  ");
                 System.out.println(ordenJerarquico.get(i));
                 union(generarAFD(ordenJerarquico.get(i).charAt(0)), generarAFD(ordenJerarquico.get(i).charAt(2)));
             }
@@ -54,15 +67,41 @@ public class Thomson {
     public AFD generarAFD(char simbolo){
         AFD automata = new AFD();
         automata.insertar_transicion(0, 1, simbolo);
+        automata.establecer_inicial(0);
+        automata.establecer_final(1);
         return automata;
     }
 
-    public void concatenacion ( String expresion){
+    public void concatenacion(String expresion){
         AFD automataConcatenacion = new AFD();
 
         for (int i = 0; i < expresion.length(); i++) {
-            automataConcatenacion.insertar_transicion(i, i+1 , expresion.charAt(i));
+            automataConcatenacion.insertar_transicion(i, i+1, expresion.charAt(i));
         }
+        automataConcatenacion.establecer_inicial(0);
+        automataConcatenacion.establecer_final(expresion.length());
+
+        automatas.add(automataConcatenacion);
+    }
+
+    public void concatenacion ( Automata a1, Automata a2){
+        AFD automataConcatenacion = new AFD();
+        
+        List<Transicion> transicionesA1= new ArrayList<Transicion>(a1.obtener_transiciones());
+        List<Transicion> transicionesA2= new ArrayList<Transicion>(a2.obtener_transiciones());
+        int contadorEstado = a1.obtener_transiciones().size()-2;
+
+        for (int i = 0; i < transicionesA1.size(); i++) {
+            automataConcatenacion.insertar_transicion(transicionesA1.get(i).estadoInicial,transicionesA1.get(i).siguienteEstado, transicionesA1.get(i).simbolo);
+        }    
+        automataConcatenacion.establecer_inicial(a1.obtener_inicial());
+
+        for (int j = 0; j < transicionesA2.size(); j++) {
+            automataConcatenacion.insertar_transicion(transicionesA2.get(j).estadoInicial+contadorEstado, transicionesA2.get(j).siguienteEstado+contadorEstado, transicionesA2.get(j).simbolo);
+        }
+
+        //automataConcatenacion.establecer_final(a2.obtener_finales().get(0)+contadorEstado);
+        this.automatas.add(automataConcatenacion);
 
         for (int i = 0; i <automataConcatenacion.obtener_transiciones().size(); i++) {
             System.out.println("___________________________________________");
@@ -72,24 +111,7 @@ public class Thomson {
             System.out.println("");
 
         }
-        
-        /*List<Transicion> transicionesA1= new ArrayList<Transicion>(a1.obtener_transiciones());
-        List<Transicion> transicionesA2= new ArrayList<Transicion>(a2.obtener_transiciones());
-        int contadorEstado = -1;
 
-        for (int i = 0; i < transicionesA1.size(); i++) {
-            contadorEstado++;
-            automataConcatenacion.insertar_transicion(contadorEstado, contadorEstado+1, transicionesA1.get(i).simbolo);
-        }    
-        automataConcatenacion.establecer_inicial(a1.obtener_inicial());
-
-        for (int j = 0; j < transicionesA2.size(); j++) {
-            contadorEstado++;
-            automataConcatenacion.insertar_transicion(contadorEstado, contadorEstado+1, transicionesA2.get(j).simbolo);
-        }
-
-        automataConcatenacion.establecer_final(a2.obtener_finales().get(0));
-        this.automatas.add(automataConcatenacion);*/
     }
      
     public void union ( AFD a1, AFD a2){
@@ -148,6 +170,7 @@ public class Thomson {
             System.out.println("");
 
         }
+        automatas.add(automataCerradura);
 
     }
     
