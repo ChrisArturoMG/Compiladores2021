@@ -1,10 +1,43 @@
+import java.rmi.server.ExportException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.StyledEditorKit;
-
 public class Thomson {
     public List<AFD> automatas = new ArrayList<>();
+
+
+    public void analizarExpresion(String expresion){
+        List<AFD> listaAFD= new ArrayList<AFD>();
+
+        for (int i = 0; i < expresion.length(); i++) {
+            if(expresion.charAt(i)=='('){
+                for (int j = 0; j < expresion.length(); j++) {
+                    if(expresion.charAt(j) == ')'){
+                        analizarExpresion(expresion.substring(i+1, j-1));
+                    }
+                }
+            }
+            if(expresion.charAt(i) == '*'){
+                String subCadenas []= expresion.split("*");
+                generarAFD(subCadenas[0].charAt(0));
+            }
+            if(expresion.charAt(i) == '|'){
+                String subCadenas []= expresion.split("|");
+                listaAFD.add(generarAFD(subCadenas[0].charAt(0)));
+                listaAFD.add(generarAFD(subCadenas[1].charAt(0)));
+            }
+
+            
+        }
+
+
+    }
+
+    public AFD generarAFD(char simbolo){
+        AFD automata = new AFD();
+        automata.insertar_transicion(0, 1, simbolo);
+        return automata;
+    }
 
     public void concatenacion ( AFD a1, AFD a2){
         AFD automataConcatenacion = new AFD();

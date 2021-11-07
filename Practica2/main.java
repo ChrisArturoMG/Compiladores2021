@@ -8,6 +8,10 @@ public class main {
         AFD a2 = new AFD();
 
         a1.insertar_transicion(0, 1, 'a');
+        a1.insertar_transicion(1, 2, 'b');
+        a1.insertar_transicion(3, , simbolo);
+
+
         a2.insertar_transicion(2, 3, 'b');
 
 
