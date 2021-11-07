@@ -7,24 +7,10 @@ public class main {
         AFD a1 = new AFD();
         AFD a2 = new AFD();
 
-        a1.insertar_transicion(0, 1, 'a');
-        a1.insertar_transicion(1, 2, 'b');
-        a1.insertar_transicion(3, , simbolo);
-
-
-        a2.insertar_transicion(2, 3, 'b');
-
-
-        a1.establecer_inicial(0);
-        a2.establecer_inicial(2);
-
-        a1.establecer_final(1);
-        a2.establecer_final(3);
-
-
         Thomson t1 = new Thomson();
-        
-        t1.cerradura(a1);
+
+        //t1.ordenarJerarquia("(a|b)*");
+        t1.concatenacion("abc");
 
         /*for (int i = 0; i < t1.automatas.get(0).obtener_transiciones().size(); i++) {
             System.out.println("___________________________________________");
