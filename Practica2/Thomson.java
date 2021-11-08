@@ -7,7 +7,14 @@ import javax.swing.text.StyledEditorKit;
 public class Thomson {
     public List<AFD> automatas = new ArrayList<>();
     List<String> ordenJerarquico = new ArrayList<>();
-
+    public boolean esNumero(char numero){
+        try {
+            int estado = Character.getNumericValue(numero);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
 
     public void ordenarJerarquia(String expresion){
         List<AFD> listaAFD= new ArrayList<AFD>();
@@ -31,9 +38,36 @@ public class Thomson {
                 System.out.println("expresion : " + expresion);
                 i=0;
             }  
+
+            // ab
+
+            if(!expresion.contains("*") && !expresion.contains("|") && ultimoParentesis==0){
+                for (int j = 0; j < expresion.length(); j++) {
+                    if(expresion.length()>1){
+                        for (int j2 = 0; j2 < expresion.length(); j2++) {
+                            if(esNumero(expresion.charAt(j2))){
+                                System.out.println("subcadena: " + expresion.substring(i-1, i+1));
+                                ordenJerarquico.add(expresion.substring(i-1, i+1));
+                                expresion = expresion.replace(expresion.substring(i-1, i+1), String.valueOf( ordenJerarquico.size()-1));
+                                System.out.println("expresion : " + expresion);
+                                i=0;
+                            }
+                        }
+                    }else{
+                        if(esNumero(expresion.charAt(i))){
+                            System.out.println("subcadena: " + expresion.substring(i-1, i+1));
+                            ordenJerarquico.add(expresion.substring(i));
+                            expresion = expresion.replace(expresion.substring(i), String.valueOf( ordenJerarquico.size()-1));
+                            System.out.println("expresion : " + expresion);
+                            i=0;
+                        }
+                    }
+
+                }
+            }  
         }
         
-        ordenJerarquico.add(expresion);
+        //ordenJerarquico.add(expresion);
         System.out.println("___________________________________________");
         System.out.println("Orden Jerarquico");
         for (int i = 0; i < ordenJerarquico.size(); i++) {
@@ -41,7 +75,7 @@ public class Thomson {
         }
         System.out.println("___________________________________________");
 
-        realizarOperaciones();
+        //realizarOperaciones();
     }
     public void realizarOperaciones(){
         for (int i = 0; i < ordenJerarquico.size(); i++) {
