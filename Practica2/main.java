@@ -10,7 +10,7 @@ public class main {
         Thomson t1 = new Thomson();
 
         //t1.ordenarJerarquia("((abc)|b)*abcd");
-        t1.ordenarJerarquia("((abc)|b)*");
+        t1.ordenarJerarquia("(((a*)bc)|b)*");
         //t1.concatenacion("abc");
 
         /*for (int i = 0; i < t1.automatas.get(0).obtener_transiciones().size(); i++) {

@@ -7,9 +7,10 @@ import javax.swing.text.StyledEditorKit;
 public class Thomson {
     public List<AFD> automatas = new ArrayList<>();
     List<String> ordenJerarquico = new ArrayList<>();
+    
     public boolean esNumero(char numero){
         try {
-            int estado = Character.getNumericValue(numero);
+            int estado = Integer.parseInt(Character.toString(numero));
         } catch (NumberFormatException nfe) {
             return false;
         }
@@ -40,17 +41,22 @@ public class Thomson {
             }  
 
             // ab
-
             if(!expresion.contains("*") && !expresion.contains("|") && ultimoParentesis==0){
+                ordenJerarquico.add(expresion);
+                expresion = expresion.replace(expresion, String.valueOf( ordenJerarquico.size()-1));
+                i=0;
+                /*
                 for (int j = 0; j < expresion.length(); j++) {
                     if(expresion.length()>1){
                         for (int j2 = 0; j2 < expresion.length(); j2++) {
-                            if(esNumero(expresion.charAt(j2))){
-                                System.out.println("subcadena: " + expresion.substring(i-1, i+1));
-                                ordenJerarquico.add(expresion.substring(i-1, i+1));
+                            if(esNumero(expresion.charAt(j2)) &&  esNumero(expresion.charAt(j2+1))){
+                                concatenacion(expresion.substring(j2), expresion.substring(j2+1));
+
                                 expresion = expresion.replace(expresion.substring(i-1, i+1), String.valueOf( ordenJerarquico.size()-1));
                                 System.out.println("expresion : " + expresion);
                                 i=0;
+                            }else{
+
                             }
                         }
                     }else{
@@ -63,8 +69,9 @@ public class Thomson {
                         }
                     }
 
-                }
+                }*/
             }  
+            
         }
         
         //ordenJerarquico.add(expresion);
@@ -75,20 +82,56 @@ public class Thomson {
         }
         System.out.println("___________________________________________");
 
-        //realizarOperaciones();
+        realizarOperaciones();
     }
     public void realizarOperaciones(){
         for (int i = 0; i < ordenJerarquico.size(); i++) {
             if(ordenJerarquico.get(i).contains("*")){
                 System.out.print("Cerradura  ");
                 System.out.println(ordenJerarquico.get(i));
-                cerradura(automatas.get(0));//ordenJerarquico.get(i).charAt(i)));
+                if(esNumero(ordenJerarquico.get(i).charAt(0))){
+                    cerradura(automatas.get(i-1));//ordenJerarquico.get(i).charAt(i)));
+                }else{
+                    cerradura(generarAFD(ordenJerarquico.get(i).charAt(0)));//ordenJerarquico.get(i).charAt(i)));
+                }
 
             }else if (ordenJerarquico.get(i).length() > 1 &&  !ordenJerarquico.get(i).contains("*") && !ordenJerarquico.get(i).contains("|") ) {
                 System.out.print("concatenacion  ");
                 System.out.println(ordenJerarquico.get(i));
-                                 
-                concatenacion(automatas.get(1), generarAFD('b'));
+                
+                Boolean cadenaConNumeros = false;
+
+                for (int j = 0; j < ordenJerarquico.get(i).length()-1; j++) {
+                    System.out.println(ordenJerarquico.get(i).charAt(j));
+                    if(esNumero(ordenJerarquico.get(i).charAt(j))){
+                        cadenaConNumeros = true;
+                    }
+                }
+
+                if(cadenaConNumeros){
+                    for (int j = 0; j < ordenJerarquico.get(i).length(); j++) {
+                        int indiceAutomata = Character.getNumericValue(ordenJerarquico.get(i).charAt(j));
+    
+                        if(esNumero(ordenJerarquico.get(i).charAt(j)) && esNumero(ordenJerarquico.get(i).charAt(j+1))){
+                            System.out.print("concatenacion ambos " + ordenJerarquico.get(i).charAt(j));
+                            concatenacion(automatas.get(j), automatas.get(j+1) );
+    
+                        }else if(!esNumero(ordenJerarquico.get(i).charAt(j))  && esNumero(ordenJerarquico.get(i).charAt(j+1)) ){
+                            System.out.print("concatenacion segundo " + ordenJerarquico.get(i).charAt(j));
+                            concatenacion(automatas.get(j), generarAFD(ordenJerarquico.get(j).charAt(j+1)));
+    
+                        }else if(esNumero(ordenJerarquico.get(i).charAt(j))  && !esNumero(ordenJerarquico.get(i).charAt(j+1))){
+                            System.out.println("concatenacion primero " + ordenJerarquico.get(i).charAt(j));
+                            concatenacion(automatas.get(j), generarAFD(ordenJerarquico.get(j).charAt(j+1)));
+    
+                        }else if(!esNumero(ordenJerarquico.get(i).charAt(j))  && !esNumero(ordenJerarquico.get(i).charAt(j+1))){
+                        
+                        }
+                    }
+
+                }else{
+                    concatenacion(ordenJerarquico.get(i));
+                }
 
             }else if(ordenJerarquico.get(i).contains("|")) {
                 System.out.print("Union  ");
@@ -116,6 +159,16 @@ public class Thomson {
         automataConcatenacion.establecer_final(expresion.length());
 
         automatas.add(automataConcatenacion);
+
+        for (int i = 0; i <automataConcatenacion.obtener_transiciones().size(); i++) {
+            System.out.println("___________________________________________");
+            System.out.print(automataConcatenacion.obtener_transiciones().get(i).estadoInicial );
+            System.out.print(automataConcatenacion.obtener_transiciones().get(i).siguienteEstado);
+            System.out.print(automataConcatenacion.obtener_transiciones().get(i).simbolo);
+            System.out.println("");
+
+        }
+
     }
 
     public void concatenacion ( Automata a1, Automata a2){
@@ -123,7 +176,7 @@ public class Thomson {
         
         List<Transicion> transicionesA1= new ArrayList<Transicion>(a1.obtener_transiciones());
         List<Transicion> transicionesA2= new ArrayList<Transicion>(a2.obtener_transiciones());
-        int contadorEstado = a1.obtener_transiciones().size()-2;
+        int contadorEstado = a1.obtener_transiciones().size();
 
         for (int i = 0; i < transicionesA1.size(); i++) {
             automataConcatenacion.insertar_transicion(transicionesA1.get(i).estadoInicial,transicionesA1.get(i).siguienteEstado, transicionesA1.get(i).simbolo);
@@ -134,7 +187,7 @@ public class Thomson {
             automataConcatenacion.insertar_transicion(transicionesA2.get(j).estadoInicial+contadorEstado, transicionesA2.get(j).siguienteEstado+contadorEstado, transicionesA2.get(j).simbolo);
         }
 
-        //automataConcatenacion.establecer_final(a2.obtener_finales().get(0)+contadorEstado);
+        automataConcatenacion.establecer_final(a2.obtener_finales().get(0)+contadorEstado);
         this.automatas.add(automataConcatenacion);
 
         for (int i = 0; i <automataConcatenacion.obtener_transiciones().size(); i++) {
@@ -187,7 +240,7 @@ public class Thomson {
     public void cerradura(AFD a1){
         AFD automataCerradura = new AFD();
         List<Transicion> transicionesA1 = a1.obtener_transiciones();
-        int contadorEstado = a1.obtener_transiciones().size();
+        int contadorEstado = a1.obtener_transiciones().size()+1;
         
         automataCerradura.insertar_transicion(contadorEstado, transicionesA1.get(0).estadoInicial, 'E');
         for (int i = 0; i <transicionesA1.size(); i++) {
@@ -195,6 +248,7 @@ public class Thomson {
         }        
         automataCerradura.insertar_transicion(a1.obtener_finales().get(0), contadorEstado+1, 'E');
         automataCerradura.insertar_transicion(contadorEstado+1,contadorEstado, 'E');
+        automataCerradura.insertar_transicion(a1.obtener_finales().get(0), a1.obtener_inicial(), 'E');
 
         for (int i = 0; i <automataCerradura.obtener_transiciones().size(); i++) {
             System.out.println("___________________________________________");
