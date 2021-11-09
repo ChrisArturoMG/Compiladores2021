@@ -5,6 +5,7 @@ public abstract class Automata {
     protected int estadoInicial;
     protected List<Integer> estadosFinales = new ArrayList<>();
     protected List<Transicion> transiciones = new ArrayList<>();
+    protected int numeroDeEstados;
     
     public void insertar_transicion(int inicio, int sig, char simbolo){
         this.transiciones.add(new Transicion(inicio,sig,simbolo));
