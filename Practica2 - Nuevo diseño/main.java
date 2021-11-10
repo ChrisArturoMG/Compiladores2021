@@ -8,16 +8,21 @@ public class main {
         a.insertar_estado();
         a.insertar_estado();
         a.insertar_estado();
-
-        a.
-
-        System.out.println(a.obtener_estados().get(1));
+        a.insertar_estado();
 
         Thomson t1 = new Thomson();
-        t1.cerradura(a);
+        
+        a.obtener_estados().get(0).insertar_transicion(1, 'a');
+        a.obtener_estados().get(1).insertar_transicion(2, 'b');
+        a.obtener_estados().get(2).insertar_transicion(3, 'c');
 
         a.establecer_inicial(0);
         a.establecer_final(3);
+        System.out.println(a.obtener_finales().size());
+        
+        t1.cerradura(a);
+        
+
 
 
     }    

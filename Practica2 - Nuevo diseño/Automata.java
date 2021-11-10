@@ -13,10 +13,6 @@ public class Automata {
         numeroDeEstados++;
     }
 
-    public void insertar_transicion(){
-
-    }
-
     public void establecer_inicial(int estado){        
         estadoInicial = estado;
     }
