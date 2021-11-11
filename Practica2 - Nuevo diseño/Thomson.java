@@ -83,7 +83,7 @@ public class Thomson {
 
         // RECORRIDO DE EXPRESION MENOS UNO PORQUE SE HARA LA CREACION REVISANDO DOS ELEMENTOS SEGUIDOS
         for (int i = 1; i < expresion.length(); i++) {
-
+            
             Automata automata_siguiente = generarAFD(expresion.charAt(i));
             List<Estado> lista_estados = new ArrayList<>(automata_siguiente.obtener_estados());
             
@@ -91,28 +91,46 @@ public class Thomson {
             
             
             for (int j = 0; j <lista_estados.size(); j++) {
+                indice_estados = raiz.obtener_estados().size()-1;
                 lista_estados.get(j).reenumerar(lista_estados.get(j).numeroEstado + indice_estados );;
                 
                 List<Transicion> lista_transiciones= new ArrayList<>(lista_estados.get(j).obtener_transiciones());
                 for (int k = 0; k < lista_transiciones.size() ; k++) {
                     lista_transiciones.get(k).renumerar( lista_transiciones.get(k).estadoSiguiente + indice_estados);
-                }   
-                
-                if(lista_estados.size()-2 == j){
-                    System.out.println("REspert");
-                    
-                    //lista_transiciones.addAll(new ArrayList<>(raiz.obtener_estados().get(raiz.obtener_final()).obtener_transiciones()) );
-                    //lista_transiciones.addAll(lista_transiciones );
-                    raiz.obtener_estados().get( raiz.obtener_final()).obtener_transiciones().addAll(new ArrayList<>(lista_transiciones) );
-                    //raiz.obtener_estados().remove(indice_estados);
-                }    
-                 
+
+                    //if(lista_estados.size()-2 == j){
+                    if(j == 0){
+                        //lista_transiciones.addAll(new ArrayList<>(raiz.obtener_estados().get(raiz.obtener_final()).obtener_transiciones()) );
+                        //lista_transiciones.addAll(lista_transiciones );
+                        //raiz.obtener_estados().get( raiz.obtener_final()).obtener_transiciones().addAll(new ArrayList<>(lista_transiciones) );
+                        raiz.obtener_estados().get( raiz.obtener_final()).obtener_transiciones().addAll(new ArrayList<>(lista_transiciones));
+                        System.out.println("valor a eliminar " + raiz.obtener_estados().get( indice_estados).numeroEstado);
+                        //System.out.print("A remover ");
+                        //System.out.print(lista_estados.get(j).numeroEstado + " --> | ");
+                        //System.out.print(lista_estados.get(j).obtener_transiciones().get(k).estadoSiguiente+", ");
+                        //System.out.print(lista_estados.get(j).obtener_transiciones().get(k).simbolo+" | ");
+                        //System.out.print(lista_estados.get(i).obtener_transiciones().get(j).estadoSiguiente+", ");
+                        //ESTO ES IMPORTANTE ES EL TESTING QUE HICE PARA IDENTIFICAR QUE ESTADO BORRAR
+                        //lista_estados.get(0).obtener_transiciones().remove(0);
+                        System.out.println("  AUTOMATA SIGUEINTE ");
+                        automata_siguiente.mostrar_automata();
+                        
+                        System.out.println("  ESTADO : " + lista_estados.get(0).numeroEstado);
+                        System.out.println("  AUTOMATA FINAL");
+                    }else{
+
+                        raiz.obtener_estados().add(lista_estados.get(j));
+                    }    
+                }
             }
+            raiz.establecer_final(indice_estados);
+            
+            automata_siguiente.mostrar_automata();
             
 
             
             
-            raiz.obtener_estados().addAll(lista_estados);
+            //raiz.obtener_estados().addAll(lista_estados);
         }
         System.out.println("Concatenacion    ");
         raiz.mostrar_automata();
