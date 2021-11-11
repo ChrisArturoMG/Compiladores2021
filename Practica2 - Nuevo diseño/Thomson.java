@@ -101,14 +101,15 @@ public class Thomson {
                 if(lista_estados.size()-2 == j){
                     System.out.println("REspert");
                     
-                    lista_transiciones.addAll(new ArrayList<>(raiz.obtener_estados().get(raiz.obtener_final()).obtener_transiciones()) );
+                    //lista_transiciones.addAll(new ArrayList<>(raiz.obtener_estados().get(raiz.obtener_final()).obtener_transiciones()) );
                     //lista_transiciones.addAll(lista_transiciones );
+                    raiz.obtener_estados().get( raiz.obtener_final()).obtener_transiciones().addAll(new ArrayList<>(lista_transiciones) );
+                    //raiz.obtener_estados().remove(indice_estados);
                 }    
-                lista_transiciones.addAll(new ArrayList<>(raiz.obtener_estados().get(raiz.obtener_final()).obtener_transiciones()) );
+                 
             }
             
 
-            //raiz.obtener_estados().remove(indice_estados);
             
             
             raiz.obtener_estados().addAll(lista_estados);
