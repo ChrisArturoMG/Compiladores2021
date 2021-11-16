@@ -3,26 +3,46 @@ import javax.print.event.PrintEvent;
 
 public class main {
     public static void main (String [] arg){
+        
+        Automata a = new Automata();
+        Automata b = new Automata();
 
-        AFD a1 = new AFD();
-        AFD a2 = new AFD();
+        b.insertar_estado();
+        b.insertar_estado();
+
+        a.insertar_estado();
+        a.insertar_estado();
+        a.insertar_estado();
+        a.insertar_estado();
 
         Thomson t1 = new Thomson();
-
-        //t1.ordenarJerarquia("((abc)|b)*abcd");
-        t1.ordenarJerarquia("(((a*)bc)|b)*");
-        //t1.concatenacion("abc");
-
-        /*for (int i = 0; i < t1.automatas.get(0).obtener_transiciones().size(); i++) {
-            System.out.println("___________________________________________");
-            System.out.print(t1.automatas.get(0).obtener_transiciones().get(i).estadoInicial);
-            System.out.print(t1.automatas.get(0).obtener_transiciones().get(i).siguienteEstado);
-            System.out.print(t1.automatas.get(0).obtener_transiciones().get(i).simbolo);
-            System.out.println("");
-        }*/
         
+        a.obtener_estados().get(0).insertar_transicion(1, 'a');
+        a.obtener_estados().get(1).insertar_transicion(2, 'b');
+        a.obtener_estados().get(2).insertar_transicion(3, 'c');
+
+        b.obtener_estados().get(0).insertar_transicion(1, 'c');
+        b.establecer_inicial(0);
+        b.establecer_final(1);
+
+        a.establecer_inicial(0);
+        a.establecer_final(3);
+
         
-    
+        //System.out.println(a.obtener_finales().size());
+        
+        //t1.cerradura(a);
+        //t1.concatenacion("0b");
+
+        //t1.union(b, a);
+
+        t1.ordenarJerarquia("((ab)|c)");
+
+
+
+        
+
+
 
     }    
 }

@@ -1,39 +1,53 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Automata {
+public class Automata {
     protected int estadoInicial;
-    protected List<Integer> estadosFinales = new ArrayList<>();
-    protected List<Transicion> transiciones = new ArrayList<>();
+    protected int estadoFinal;
+    protected int numeroDeEstados=0;
+    protected List<Estado> estados = new ArrayList<>();
+
     
-    public void insertar_transicion(int inicio, int sig, char simbolo){
-        this.transiciones.add(new Transicion(inicio,sig,simbolo));
+    public void insertar_estado(){
+        this.estados.add(new Estado(numeroDeEstados));
+        numeroDeEstados = estados.size();
     }
-    public void eliminar_transicion(int inicio, int sig, char simbolo){
-        for (int i = 0; i < transiciones.size(); i++) {
-            if (transiciones.get(i).estadoInicial == inicio 
-                    && transiciones.get(i).siguienteEstado == sig
-                       && transiciones.get(i).simbolo == simbolo) {
-                transiciones.remove(i);
-            }
-        }
-    }
-    
+
     public void establecer_inicial(int estado){        
-        for (int i = 0; i < transiciones.size(); i++) {
-            if (transiciones.get(i).estadoInicial == estado || transiciones.get(i).siguienteEstado == estado) {
-                this.estadoInicial = estado;
+        estadoInicial = estado;
+    }
+    
+    public void establecer_final(int estado){
+        this.estadoFinal = estado;
+    }
+    
+    public int obtener_inicial() {
+        return estadoInicial;
+    }
+    public int obtener_final() {
+        return estadoFinal;
+    }
+    public List<Estado> obtener_estados(){
+        numeroDeEstados = estados.size();
+        return estados;
+    }
+    public int obtener_numero_estados(){
+        return numeroDeEstados;
+    }
+
+    public void mostrar_automata(){
+        for (int i = 0; i < estados.size(); i++) {
+            System.out.print(estados.get(i).numeroEstado + " --> | ");
+            for (int j = 0; j <estados.get(i).obtener_transiciones().size(); j++) {
+                System.out.print(estados.get(i).obtener_transiciones().get(j).estadoSiguiente+", ");
+                System.out.print(estados.get(i).obtener_transiciones().get(j).simbolo+" | ");
             }
+            System.out.println(" ");
         }
     }
 
-    public void establecer_final(int estado){
-        for (int i = 0; i < transiciones.size(); i++) {
-            if (transiciones.get(i).estadoInicial == estado || transiciones.get(i).siguienteEstado == estado) {
-                this.estadosFinales.add(estado);
-            }
-        }
-    }
+    /*
+    
 
     public boolean ValidarAFD(){
         Transicion temp;
@@ -54,18 +68,8 @@ public abstract class Automata {
         return !ValidarAFD();
     }
 
-    public int obtener_inicial() {
-        return estadoInicial;
-    }
-    public List<Integer> obtener_finales() {
-        return estadosFinales;
-    }
-    public List<Transicion> obtener_transiciones(){
-        return transiciones;
-    }
-
 
     public abstract int evaluaSimbolo(char simbolo, int estadoActual);
     
-    
+    */
 }

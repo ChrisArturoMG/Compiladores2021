@@ -10,7 +10,7 @@ public class Automata {
     
     public void insertar_estado(){
         this.estados.add(new Estado(numeroDeEstados));
-        numeroDeEstados++;
+        numeroDeEstados = estados.size();
     }
 
     public void establecer_inicial(int estado){        
@@ -28,6 +28,7 @@ public class Automata {
         return estadoFinal;
     }
     public List<Estado> obtener_estados(){
+        numeroDeEstados = estados.size();
         return estados;
     }
     public int obtener_numero_estados(){
@@ -35,8 +36,6 @@ public class Automata {
     }
 
     public void mostrar_automata(){
-
-        
         for (int i = 0; i < estados.size(); i++) {
             System.out.print(estados.get(i).numeroEstado + " --> | ");
             for (int j = 0; j <estados.get(i).obtener_transiciones().size(); j++) {
