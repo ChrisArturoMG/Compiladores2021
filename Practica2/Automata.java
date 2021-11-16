@@ -45,31 +45,4 @@ public class Automata {
             System.out.println(" ");
         }
     }
-
-    /*
-    
-
-    public boolean ValidarAFD(){
-        Transicion temp;
-        boolean esAFD = true;
-        for (int i = 0; i < transiciones.size(); i++) {
-            for (int j = i+1; j < transiciones.size(); j++) {
-                if(transiciones.get(i).estadoInicial == transiciones.get(j).estadoInicial
-                        && transiciones.get(i).simbolo == transiciones.get(j).simbolo){
-                    esAFD = false;
-                    return esAFD;
-                }
-            }
-        }
-        return esAFD;
-    }
-    
-    public boolean AFN(){
-        return !ValidarAFD();
-    }
-
-
-    public abstract int evaluaSimbolo(char simbolo, int estadoActual);
-    
-    */
 }

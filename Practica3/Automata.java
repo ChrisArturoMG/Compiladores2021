@@ -1,3 +1,4 @@
+import java.nio.file.attribute.AclFileAttributeView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,6 +7,7 @@ public class Automata {
     protected int estadoFinal;
     protected int numeroDeEstados=0;
     protected List<Estado> estados = new ArrayList<>();
+    protected char alfabeto[];
 
     
     public void insertar_estado(){
@@ -34,6 +36,12 @@ public class Automata {
     public int obtener_numero_estados(){
         return numeroDeEstados;
     }
+    public void insertar_alfabeto(char alfabeto[]){
+        this.alfabeto = alfabeto;
+    }
+    public char[] obtener_alfabeto(){
+        return alfabeto;
+    }
 
     public void mostrar_automata(){
         for (int i = 0; i < estados.size(); i++) {
@@ -45,31 +53,4 @@ public class Automata {
             System.out.println(" ");
         }
     }
-
-    /*
-    
-
-    public boolean ValidarAFD(){
-        Transicion temp;
-        boolean esAFD = true;
-        for (int i = 0; i < transiciones.size(); i++) {
-            for (int j = i+1; j < transiciones.size(); j++) {
-                if(transiciones.get(i).estadoInicial == transiciones.get(j).estadoInicial
-                        && transiciones.get(i).simbolo == transiciones.get(j).simbolo){
-                    esAFD = false;
-                    return esAFD;
-                }
-            }
-        }
-        return esAFD;
-    }
-    
-    public boolean AFN(){
-        return !ValidarAFD();
-    }
-
-
-    public abstract int evaluaSimbolo(char simbolo, int estadoActual);
-    
-    */
 }
