@@ -17,7 +17,7 @@ public class main {
         a.obtener_estados().get(1).insertar_transicion(4, 'E');
 
         a.obtener_estados().get(2).insertar_transicion(3, 'a');
-        a.obtener_estados().get(3).insertar_transicion(6, 'a');
+        a.obtener_estados().get(3).insertar_transicion(6, 'E');
 
         a.obtener_estados().get(4).insertar_transicion(5, 'b');
         a.obtener_estados().get(5).insertar_transicion(6, 'E');
@@ -35,7 +35,8 @@ public class main {
         a.insertar_alfabeto(new char []{'a', 'b'});
 
         SubConjuntos s = new SubConjuntos();
-        s.cerraduraEpsilon(a.obtener_estados().get(0));
+        s.establecerAutomata(a);
+        s.cerraduraEpsilon(a.obtener_estados().get(1));
 
 
 
