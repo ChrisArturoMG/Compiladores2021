@@ -36,7 +36,8 @@ public class main {
 
         SubConjuntos s = new SubConjuntos();
         s.establecerAutomata(a);
-        s.cerraduraEpsilon(a.obtener_estados().get(1));
+        //s.cerraduraEpsilon(a.obtener_estados().get(0));}
+        s.generarAFD();
         
 
 
