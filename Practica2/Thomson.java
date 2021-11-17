@@ -246,9 +246,5 @@ public class Thomson {
         
         System.out.println("este es la union");
         automatas.add(union);
-
-
     }  
-
-
 }

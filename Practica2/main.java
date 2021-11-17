@@ -28,14 +28,6 @@ public class main {
         a.establecer_inicial(0);
         a.establecer_final(3);
 
-        
-        //System.out.println(a.obtener_finales().size());
-        
-        //t1.cerradura(a);
-        //t1.concatenacion("0b");
-
-        //t1.union(b, a);
-
         t1.ordenarJerarquia("((ab)|c)");
 
 
