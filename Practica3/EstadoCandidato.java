@@ -6,11 +6,16 @@ import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import org.w3c.dom.events.EventTarget;
 
 public class EstadoCandidato {
-   List <Integer> estados = new ArrayList<>();
+   List <Integer> estados;
    protected int numero_estado;
+   List <Integer> nucleo;
 
     public EstadoCandidato(List<Integer> estados){
-        this.estados = estados;
+        this.estados =  new ArrayList<>(estados);;
+    }
+
+    public void establecer_nucleo(List<Integer> nucleo){
+        this.nucleo =  new ArrayList<>(nucleo);
     }
    
     public void establecer_estados(List<Integer> estados){
@@ -21,5 +26,11 @@ public class EstadoCandidato {
     }
     public List<Integer> obtener_estados(){
         return estados;
+    }
+    public int obtener_estado() {
+        return numero_estado;
+    }
+    public List<Integer> obtener_nucleo(){
+        return nucleo;
     }
 }
