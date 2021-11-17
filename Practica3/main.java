@@ -37,7 +37,7 @@ public class main {
         SubConjuntos s = new SubConjuntos();
         s.establecerAutomata(a);
         s.cerraduraEpsilon(a.obtener_estados().get(1));
-
+        
 
 
     }    
