@@ -39,8 +39,6 @@ public class Thomson {
                 i=0;
             }  
 
-            
-            // ab
             if(!expresion.contains("*") && !expresion.contains("|") && ultimoParentesis==0){
                 ordenJerarquico.add(expresion);
                 expresion = expresion.replace(expresion, String.valueOf( ordenJerarquico.size()-1));
@@ -49,10 +47,7 @@ public class Thomson {
             }  
             if(expresion.charAt(i) == '|' && ultimoParentesis==0){
                 System.out.println("union");
-
-                //System.out.println("subcadena: " + expresion.substring(i-2, i));
                 System.out.println("subcadena: " + expresion.substring(1, expresion.length()-1));
-                //ordenJerarquico.add(expresion.substring(i-2, i));
                 ordenJerarquico.add(expresion.substring(1, expresion.length()-1));
                 expresion = expresion.replace(expresion.substring(0, expresion.length()), String.valueOf( ordenJerarquico.size()-1));
                 System.out.println("expresion : " + expresion);
@@ -79,9 +74,9 @@ public class Thomson {
                 System.out.print("Cerradura  ");
                 System.out.println(ordenJerarquico.get(i));
                 if(esNumero(ordenJerarquico.get(i).charAt(0))){
-                    cerradura(automatas.get(i-1));//ordenJerarquico.get(i).charAt(i)));
+                    cerradura(automatas.get(i-1));
                 }else{
-                    cerradura(generarAFD(ordenJerarquico.get(i).charAt(0)));//ordenJerarquico.get(i).charAt(i)));
+                    cerradura(generarAFD(ordenJerarquico.get(i).charAt(0)));
                 }
 
             }else if (ordenJerarquico.get(i).length() > 1 &&  !ordenJerarquico.get(i).contains("*") && !ordenJerarquico.get(i).contains("|") ) {
@@ -120,12 +115,11 @@ public class Thomson {
         // CONEXION A ESTADO FINAL A FINAL
         ACerradura.insertar_estado();
         indice_estado_final = ACerradura.obtener_numero_estados()-1;
-        //System.out.println("esto importa" + estado_final + " " + indice_estado_final);
+        
         ACerradura.establecer_final(indice_estado_final);
         lista_estados.get(estado_final).insertar_transicion(indice_estado_final, 'E');
         lista_estados.get(indice_estado_final).insertar_transicion(indice_estado_final-1, 'E');
                 
-        //System.out.println(" ->" + ACerradura.obtener_inicial() );
         System.out.println(ACerradura.obtener_final() + "*");
 
         automatas.add(ACerradura);
@@ -143,17 +137,14 @@ public class Thomson {
         return true;
     }
 
-    public Automata generarAFD(char simbolo){//, int inicial, int fin){
+    public Automata generarAFD(char simbolo){
         Automata a = new Automata();
         a.insertar_estado();
         a.insertar_estado();
         indice_estados++;
-        //a.establecer_inicial(inicial);
-        //a.establecer_final(fin);
         a.establecer_inicial(0);
         a.establecer_final(1);
 
-        //a.obtener_estados().get(inicial).insertar_transicion(fin, simbolo);
         a.obtener_estados().get(0).insertar_transicion(1, simbolo);
         return a;
     }
@@ -243,8 +234,6 @@ public class Thomson {
         union.obtener_estados().get(AUnion1.estadoFinal).insertar_transicion(indice_estado, 'E');
         union.obtener_estados().get(AUnion2.estadoFinal).insertar_transicion(indice_estado, 'E');
         union.mostrar_automata();
-        
-        System.out.println("este es la union");
         automatas.add(union);
     }  
 }

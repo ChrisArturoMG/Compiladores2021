@@ -28,7 +28,7 @@ public class main {
         a.establecer_inicial(0);
         a.establecer_final(3);
 
-        t1.ordenarJerarquia("((ab)|c)");
+        t1.ordenarJerarquia("((ab)|(c*))");
 
 
 
