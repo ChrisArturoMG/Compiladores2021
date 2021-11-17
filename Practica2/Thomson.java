@@ -23,19 +23,14 @@ public class Thomson {
             if(expresion.charAt(i)=='('){
                 ultimoParentesis = i;
             }if(expresion.charAt(i)==')'){
-                System.out.println("subcadena: " + expresion.substring(ultimoParentesis+1, i));
                 ordenJerarquico.add(expresion.substring(ultimoParentesis+1, i));
                 expresion = expresion.replace(expresion.substring(ultimoParentesis, i+1), String.valueOf( ordenJerarquico.size()-1));
-                System.out.println("expresion : " + expresion);
                 i=0;
                 ultimoParentesis=0;
             }
             if(expresion.charAt(i) == '*' && ultimoParentesis==0){
-                System.out.println("subcadena: " + expresion.substring(i-1, i+1));
                 ordenJerarquico.add(expresion.substring(i-1, i+1));
                 expresion = expresion.replace(expresion.substring(i-1, i+1), String.valueOf( ordenJerarquico.size()-1));
-                System.out.println("expresion : " + expresion);
-                System.out.println("");
                 i=0;
             }  
 
@@ -46,12 +41,8 @@ public class Thomson {
 
             }  
             if(expresion.charAt(i) == '|' && ultimoParentesis==0){
-                System.out.println("union");
-                System.out.println("subcadena: " + expresion.substring(1, expresion.length()-1));
-                ordenJerarquico.add(expresion.substring(1, expresion.length()-1));
-                expresion = expresion.replace(expresion.substring(0, expresion.length()), String.valueOf( ordenJerarquico.size()-1));
-                System.out.println("expresion : " + expresion);
-                System.out.println("");
+                ordenJerarquico.add(expresion.substring(1, expresion.length()-2));
+                expresion = expresion.replace(expresion.substring(0, expresion.length()-1), String.valueOf( ordenJerarquico.size()-1));
                 i=0;
             }  
             
@@ -80,7 +71,7 @@ public class Thomson {
                 }
 
             }else if (ordenJerarquico.get(i).length() > 1 &&  !ordenJerarquico.get(i).contains("*") && !ordenJerarquico.get(i).contains("|") ) {
-                System.out.print("concatenacion  ");
+                System.out.print("Concatenacion  ");
                 System.out.println(ordenJerarquico.get(i));
                 concatenacion(ordenJerarquico.get(i));
                 
@@ -89,7 +80,7 @@ public class Thomson {
                 System.out.print("Union  ");
                 System.out.println(ordenJerarquico.get(i));
                 if(esNumero(ordenJerarquico.get(i).charAt(0))){
-                    union(automatas.get(Integer.parseInt(String.valueOf(ordenJerarquico.get(i).charAt(0)))),   generarAFD(ordenJerarquico.get(i).charAt(2)));
+                    union(automatas.get(Integer.parseInt(String.valueOf(ordenJerarquico.get(i).charAt(0)))),generarAFD(ordenJerarquico.get(i).charAt(2)));
 
                 }
             }
@@ -119,11 +110,9 @@ public class Thomson {
         ACerradura.establecer_final(indice_estado_final);
         lista_estados.get(estado_final).insertar_transicion(indice_estado_final, 'E');
         lista_estados.get(indice_estado_final).insertar_transicion(indice_estado_final-1, 'E');
-                
-        System.out.println(ACerradura.obtener_final() + "*");
 
         automatas.add(ACerradura);
-        System.out.println("Cerradura    ");
+
         ACerradura.mostrar_automata();
 
     }
@@ -192,9 +181,6 @@ public class Thomson {
             raiz.establecer_final(indice_estados);
             raiz.mostrar_automata();
         }
-        System.out.println("Concatenacion    ");
-        raiz.mostrar_automata();
-        System.out.println("Este es el final " + raiz.obtener_final());
         automatas.add(raiz);
 
     }
