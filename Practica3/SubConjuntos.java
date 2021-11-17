@@ -34,14 +34,13 @@ public class SubConjuntos {
                 }
             }           
         }   
-        
+        /*
         System.out.println(" Cerradura " + estado.numeroEstado);
         for (int i = 0; i < valores_cerradura.size(); i++) {
             System.out.print(" " + valores_cerradura.get(i));
         }
         System.out.println("");
-        estados_AFD.add(new EstadoCandidato(valores_cerradura));
-
+*/
         return valores_cerradura;
     }
 
@@ -60,13 +59,13 @@ public class SubConjuntos {
                 }
             }           
         } 
-        
+        /*
         System.out.println(" Mover ");
         for (int i = 0; i < valores_mover.size(); i++) {
             System.out.print(" " + valores_mover.get(i));
         }
         System.out.println("");
-
+*/
         return valores_mover;
     }
 
@@ -76,9 +75,43 @@ public class SubConjuntos {
     public void generarAFD(){
 
         //Cerradura de primer estado del automata
-        cerraduraEpsilon(automata.obtener_estados().get(automata.obtener_inicial()));
+
+        ArrayList<Integer> resultados_cerradura = cerraduraEpsilon(automata.obtener_estados().get(automata.obtener_inicial()));
+
+        estados_AFD.add(new EstadoCandidato(resultados_cerradura)) ;
+        
+        //mover(estados_AFD.get(0), 'a');
+        resultados_cerradura.clear();
+        
+        for (int i = 0; i < estados_AFD.size() ; i++) {
+            for (int j = 0; j < automata.obtener_alfabeto().length; j++) {
+                ArrayList<Integer> resultados_mover = new ArrayList<>(mover(estados_AFD.get(i), automata.obtener_alfabeto()[j]));
+
+                for (int k = 0; k < resultados_mover.size(); k++) {
+                    resultados_cerradura = cerraduraEpsilon(automata.obtener_estados().get(resultados_mover.get(k)));
+                    if(k == 0){
+                        estados_AFD.add(new EstadoCandidato(resultados_cerradura));
+                    }else{
+                        estados_AFD.get(estados_AFD.size()-1).obtener_estados().addAll(resultados_cerradura);
+                    }
+                }
+
+                System.out.println(" Candidato a nuevo estado ");
+                for (int a = 0; a < estados_AFD.get(estados_AFD.size()-1).obtener_estados().size(); a++) {
+                    System.out.print(" " + estados_AFD.get(estados_AFD.size()-1).obtener_estados().get(a));
+                }
+                System.out.println("");
+            }
+        }
 
         //Operacion mover con los valores del alfabeto
+        /*
+        for (int i = 0; i < estados_AFD.size(); i++) {
+            estados_AFD.get(i).obtener_estados();
+        }
+        */
+        
+
         
     }
 }
