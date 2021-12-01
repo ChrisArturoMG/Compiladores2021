@@ -9,7 +9,6 @@ public class Automata {
     protected List<Estado> estados = new ArrayList<>();
     protected char alfabeto[];
 
-    
     public void insertar_estado(){
         this.estados.add(new Estado(numeroDeEstados));
         numeroDeEstados = estados.size();

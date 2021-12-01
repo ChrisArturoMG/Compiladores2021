@@ -1,10 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
-
-import org.w3c.dom.events.EventTarget;
-
 public class EstadoCandidato {
    List <Integer> estados;
    protected int numero_estado;

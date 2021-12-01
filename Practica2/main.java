@@ -29,12 +29,5 @@ public class main {
         a.establecer_final(3);
 
         t1.ordenarJerarquia("((ab)|c)*");
-
-
-
-        
-
-
-
     }    
 }

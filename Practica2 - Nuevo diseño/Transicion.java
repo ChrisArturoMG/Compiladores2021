@@ -6,7 +6,5 @@ public class Transicion {
         this.estadoSiguiente = estadoSiguiente;
         this.simbolo = simbolo;
     }
-    public void renumerar(int estadoSiguiente){
-        this.estadoSiguiente = estadoSiguiente;
-    }
+    
 }

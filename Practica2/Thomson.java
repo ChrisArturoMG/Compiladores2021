@@ -4,9 +4,6 @@ import java.security.SignatureSpi;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.StyledEditorKit;
-import javax.swing.text.DefaultEditorKit.InsertBreakAction;
-
 public class Thomson {
 
     List <Automata>automatas = new  ArrayList<>();
