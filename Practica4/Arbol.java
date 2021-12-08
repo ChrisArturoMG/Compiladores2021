@@ -45,12 +45,5 @@ public class Arbol {
             }  
             
         }
-        //ordenJerarquico.add(expresion);
-        //System.out.println("___________________________________________");
-        //System.out.println("Orden Jerarquico");
-        //for (int i = 0; i < ordenJerarquico.size(); i++) {
-         //   System.out.println(ordenJerarquico.get(i));
-        //}
-        //System.out.println("___________________________________________");
     }
 }
